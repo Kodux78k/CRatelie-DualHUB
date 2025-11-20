@@ -4,17 +4,9 @@ const ASSETS = [
   "./index.html",
   "./manifest.webmanifest",
   "./apps/apps.json",
-  "./apps/CostaRibeiro-ORc.html",
-  "./apps/CATCR.html",
-  "./apps/CostaRibero-Cotar0.html",
-  "./apps/CatCostaRibeiro.html",
-  "./apps/CR-orcamento.html",
-  "./apps/CostaRibeiro-Cotar-v0.html",
-  "./icons/icon-180.png",
-  "./icons/icon-181.png",
-  "./icons/icon-182.png",
   "./icons/icon-192.png",
-  "./icons/icon-512.png"
+  "./icons/icon-512.png",
+  "./icons/icon-180.png"
 ];
 
 self.addEventListener("install", (e)=>{
@@ -26,14 +18,29 @@ self.addEventListener("install", (e)=>{
 
 self.addEventListener("activate", (e)=>{
   e.waitUntil(
-    caches.keys().then(keys=>
-      Promise.all(keys.map(k=>k!==CACHE_NAME && caches.delete(k)))
-    ).then(()=>self.clients.claim())
+    Promise.all([
+      caches.keys().then(keys=>
+        Promise.all(keys.map(k=>k!==CACHE_NAME && caches.delete(k)))
+      ),
+      clients.claim()
+    ])
   );
 });
 
 self.addEventListener("fetch", (e)=>{
+  const req = e.request;
+  // network-first for html, cache-first for others
+  if(req.mode === "navigate" || (req.destination === "document")){
+    e.respondWith(
+      fetch(req).then(resp=>{
+        const copy = resp.clone();
+        caches.open(CACHE_NAME).then(c=>c.put(req, copy));
+        return resp;
+      }).catch(()=>caches.match(req))
+    );
+    return;
+  }
   e.respondWith(
-    caches.match(e.request).then(resp => resp || fetch(e.request))
+    caches.match(req).then(resp => resp || fetch(req))
   );
 });
