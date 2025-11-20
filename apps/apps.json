@@ -1,31 +1,31 @@
 {
   "apps": [
     {
-      "key": "ticos",
-      "title": "🗒️ Práticas — NR10/NR35 (Ultra)",
+      "key": "Orc",
+      "title": "🗒️ Costa&Ribeiro-ORC",
       "desc": "PWA offline com dashboard, lembrete e relatos com áudio.",
-      "icon": "icons/icon-192.png",
-      "url": "./PWA_TICO_Ultra/index.html"
+      "icon": "icons/icon-180.png",
+      "url": "./apps/Costa&Ribeiro-ORc.html"
     },
     {
       "key": "app2",
-      "title": "🏠 Regualização ",
+      "title": "🏠 APP2 ",
       "desc": "Regularize seu imóvel.",
-      "icon": "icons/icon-192.png",
-      "url": "./apps/lp-reg-10-ok-R-5.html"
+      "icon": "icons/icon-181.png",
+      "url": "./apps/CR-orcamento.html"
     },
         {
       "key": "Contratos",
       "title": "📑 Gerar Contrato ",
       "desc": "Gere orçamentos.",
-      "icon": "icons/icon-192.png",
-      "url": "./apps/JHBARROS-contratos.html"
+      "icon": "icons/icon-182.png",
+      "url": "./apps/indexv 1.html"
     },
         {
       "key": "d0x",
       "title": "📜 infoD0X ",
       "desc": "Livro vivo.",
-      "icon": "icons/icon-192.png",
+      "icon": "icons/icon-d0x.png",
       "url": "./apps/index_final_cards_nossolar.html"
     }
   ]
