@@ -2,14 +2,14 @@
 <html lang="pt-br">
 <head>
   <meta charset="utf-8" />
-  <title>Hub Virgem • Dual.Infodose</title>
+  <title>Hub • Dual.Infodose</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <meta name="theme-color" content="#050510" id="metaThemeColor">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <link rel="manifest" href="./manifest.webmanifest">
   <link rel="icon" href="./icons/icon-192.png">
-  <link rel="apple-touch-icon" href="./icons/apple-touch-icon-180.png">
+  <link rel="apple-touch-icon" href="./icons/icon-180.png">
 
   <style>
     :root{
@@ -40,45 +40,27 @@
       --muted:rgba(255,245,230,.78);
     }
     *{box-sizing:border-box;margin:0;padding:0}
-/* MOBILE-FIRST VERTICAL HARD-LOCK */
-html,
-body{
-  margin:0;
-  padding:0;
-  width:100%;
-  height:100%; /* usa % em vez de vh/dvh/svh */
-}
-
-/* Corpo do app */
-body{
-  min-height:100%;
-  display:flex;
-  flex-direction:column;
-  font-family:system-ui,-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",sans-serif;
-  background:
-    radial-gradient(circle at top left, rgba(27,228,255,.18) 0%, transparent 52%),
-    radial-gradient(circle at bottom right, rgba(255,158,242,.16) 0%, transparent 50%),
-    radial-gradient(circle at top right, rgba(255,223,107,.12) 0%, transparent 46%),
-    linear-gradient(135deg, #050510 0%, #050512 40%, #050508 100%);
-  color:var(--text);
-  -webkit-font-smoothing:antialiased;
-  padding-bottom:env(safe-area-inset-bottom);
-}
-
-/* Quando modal aberto, trava scroll */
-body.modal-open{
-  overflow:hidden;
-  touch-action:none;
-}
-
-/* Conteúdo principal */
-main{
-  flex:1 0 auto;
-  max-width:720px;
-  width:100%;
-  margin:0 auto;
-  padding:12px 12px calc(18px + env(safe-area-inset-bottom));
-}
+    html,body{height:100%}
+    body{
+      font-family:system-ui,-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(27,228,255,.18) 0%, transparent 52%),
+        radial-gradient(circle at bottom right, rgba(255,158,242,.16) 0%, transparent 50%),
+        radial-gradient(circle at top right, rgba(255,223,107,.12) 0%, transparent 46%),
+        linear-gradient(135deg, #050510 0%, #050512 40%, #050508 100%);
+      color:var(--text);
+      -webkit-font-smoothing:antialiased;
+      padding-bottom:env(safe-area-inset-bottom);
+    }
+    body.modal-open{
+      overflow:hidden;
+      touch-action:none;
+    }
+    main{
+      max-width:720px;
+      margin:0 auto;
+      padding:12px 12px calc(18px + env(safe-area-inset-bottom));
+    }
     .header{
       position:sticky;
       top:0;
@@ -301,6 +283,7 @@ main{
       0%{transform:translateX(-40%)}
       50%{transform:translateX(10%)}
       100%{transform:translateX(40%)}
+      100%{transform:translateX(40%)}
     }
     .spinner{
       width:18px;
@@ -361,19 +344,157 @@ main{
   }
   .topbar .tbtn{ min-height: 34px; padding: 0 .6rem; }
 }
-  </style>
+  
+/* =========================
+   STACK MODE (Nebula Pro)
+   Apps abrem em "stacks" lindas
+   ========================= */
+.viewer.stack-mode{
+  padding:0 !important;
+  background:transparent !important;
+}
+.stack-host{
+  position:relative;
+  width:100%;
+  height:100%;
+  overflow:hidden;
+}
+.stack-card{
+  position:absolute;
+  inset:10px 8px 12px 8px;
+  border-radius:24px;
+  background:
+    linear-gradient(180deg, rgba(12,12,22,.98), rgba(6,6,14,.94)) padding-box,
+    radial-gradient(140% 120% at 0% 0%, rgba(240,0,255,.16), rgba(0,255,255,.12), transparent 60%) border-box;
+  border:1px solid rgba(255,255,255,.08);
+  box-shadow:
+    0 25px 90px rgba(0,0,0,.78),
+    0 2px 0 rgba(255,255,255,.035) inset,
+    0 0 0 1px rgba(255,255,255,.04) inset;
+  backdrop-filter: blur(6px) saturate(1.1);
+  transform:
+    translateY(calc(var(--stack-index,0) * 14px))
+    scale(calc(1 - var(--stack-index,0) * 0.035));
+  transition:
+    transform .38s cubic-bezier(.2,.9,.2,1),
+    opacity .25s ease,
+    filter .25s ease;
+  display:flex;
+  flex-direction:column;
+  overflow:hidden;
+}
+.stack-card::before{
+  content:"";
+  position:absolute; inset:0;
+  pointer-events:none;
+  background:linear-gradient(180deg, rgba(255,255,255,.07), transparent 18%, transparent 82%, rgba(0,0,0,.25));
+  opacity:.65;
+  mix-blend-mode:screen;
+}
+
+.stack-card.is-under{
+  filter:saturate(.85) blur(.6px);
+  opacity:calc(1 - var(--stack-index,0) * 0.12);
+}
+.stack-card.entering{
+  transition:
+    transform .48s cubic-bezier(.16,1,.2,1),
+    opacity .35s ease;
+}
+
+.stack-bar{
+  position:relative;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:max(env(safe-area-inset-top), 10px) 12px 10px 12px;
+  background:rgba(8,8,16,.82);
+  backdrop-filter: blur(12px) saturate(1.2);
+  border-bottom:1px solid rgba(255,255,255,.08);
+}
+.stack-bar::after{
+  content:"";
+  position:absolute;
+  top:6px; left:50%;
+  transform:translateX(-50%);
+  width:44px; height:4px;
+  border-radius:999px;
+  background:rgba(255,255,255,.22);
+}
+
+.stack-back{
+  width:44px;height:44px;border-radius:12px;
+  display:grid;place-items:center;
+  background:rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.08);
+  color:var(--text,#fff);
+  font-size:20px;
+}
+.stack-title{
+  flex:1;
+  font-weight:700;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+.stack-external{
+  width:44px;height:44px;border-radius:12px;
+  display:grid;place-items:center;
+  background:rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.08);
+  text-decoration:none;
+  color:inherit;
+  font-size:18px;
+}
+.stack-body{ position:relative; flex:1; }
+.stack-body .loader{
+  position:absolute; inset:0; display:grid; place-items:center;
+  background:rgba(2,2,6,.6); backdrop-filter: blur(6px);
+  opacity:0; pointer-events:none; transition:opacity .2s ease;
+}
+.stack-body .loader.show{ opacity:1; pointer-events:auto; }
+.stack-body iframe{
+  width:100%; height:100%; border:0; background:#000;
+}
+
+
+.stack-body .pulse{
+  width:52px;height:52px;border-radius:50%;
+  border:2px solid rgba(255,255,255,.14);
+  border-top-color: rgba(86,240,255,.9);
+  animation: spin 1s linear infinite;
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+</style>
 </head>
 <body>
   <header class="header" role="banner">
     <div class="inner">
-      <div class="logo" aria-hidden="true"></div>
-      <div style="flex:1">
-        <div class="kicker">Dual.Infodose • Hub Virgem</div>
-        <h1>Meu Hub • Espaço Pessoal</h1>
+      <!-- ORB / PERFIL -->
+      <div class="logo"
+           id="btnUserOrb"
+           role="button"
+           tabindex="0"
+           title="Abrir painel de usuário">
       </div>
-      <nav class="topbar" aria-label="Alternar tema e instalar">
-        <button class="tbtn" id="themeCyan" type="button" aria-pressed="true">Cyan</button>
-        <button class="tbtn" id="themeLux" type="button" aria-pressed="false">Luxara</button>
+
+      <div style="flex:1">
+        <div class="kicker"
+             id="kicker"
+             data-base="Dual.Infodose • Hub Virgem">
+          Dual.Infodose • Hub 
+        </div>
+        <h1 id="mainTitle"
+            data-base="Meu Hub • Espaço Pessoal">
+          CostaRibeiro • Atelié 
+        </h1>
+      </div>
+
+      <nav class="topbar" aria-label="Tema, instalação e editor de Hub">
+        <button class="tbtn" id="btnTheme" type="button" aria-pressed="true">
+          CR
+        </button>
         <button class="tbtn" id="btnInstall" type="button">⬇️ Instalar</button>
         <button class="tbtn" id="btnHubEditor" type="button">✏️ Meu Hub</button>
       </nav>
@@ -385,13 +506,16 @@ main{
     <div class="skeleton"></div>
   </main>
 
-  <footer>Hub Virgem • “Você cria o próprio painel. Sempre único, sempre seu.”</footer>
+  <footer>Use.Transforme.Devolva • “Do seu jeito. Sempre único, sempre seu.”</footer>
 
-  <!-- Viewer -->
+  <!-- Viewer de apps -->
   <div class="viewer" id="viewer" role="dialog" aria-modal="true" aria-labelledby="barTitle">
     <div class="frame">
       <div class="bar">
-        <div class="left"><div class="dot" aria-hidden="true"></div><strong id="barTitle">App</strong></div>
+        <div class="left">
+          <div class="dot" aria-hidden="true"></div>
+          <strong id="barTitle">App</strong>
+        </div>
         <div class="row" role="toolbar" aria-label="Ações do app">
           <button class="btn" id="btnHome" type="button">🏠 Home</button>
           <a class="btn" id="btnExternal" href="#" target="_blank" rel="noopener" aria-label="Abrir em nova aba">↗️ Abrir em aba</a>
@@ -402,7 +526,7 @@ main{
     </div>
   </div>
 
-  <!-- Hub Editor -->
+  <!-- Hub Editor (Virgem) -->
   <div class="viewer" id="editor" role="dialog" aria-modal="true" aria-labelledby="editorTitle">
     <div class="frame">
       <div class="bar">
@@ -413,13 +537,13 @@ main{
       </div>
       <div style="padding:12px;display:flex;flex-direction:column;gap:8px;max-height:calc(100vh - 80px);overflow:auto;">
         <p class="muted">
-          Este Hub começa vazio e usa apenas os apps que você definir aqui.
+          Este Hub usa apenas os apps que você definir aqui.
           Os dados ficam <strong>só neste dispositivo</strong> (localStorage).
         </p>
         <p class="muted" style="font-size:.76rem;">
-          Você pode usar apps externos do GitHub Pages ou de outros domínios:
-          basta colocar a <code>url</code> completa (https://...).
-          Botão “Usar padrão” puxa o template do <code>apps/apps.json</code>.
+          Você pode usar apps externos da DualInfodose:
+          basta colocar a <code>url</code> completa (<code>https://...</code>).
+          O botão “Usar padrão” puxa o template do <code>apps/apps.json</code>.
         </p>
         <div class="row" style="gap:8px;flex-wrap:wrap;">
           <button class="btn" id="btnEditorAdd" type="button">➕ Adicionar app</button>
@@ -436,11 +560,128 @@ main{
     </div>
   </div>
 
+  <!-- Painel de Usuário / Debug -->
+  <div class="viewer" id="userPanel" role="dialog" aria-modal="true" aria-labelledby="userPanelTitle">
+    <div class="frame">
+      <div class="bar">
+        <div class="left">
+          <div class="dot" aria-hidden="true"></div>
+          <strong id="userPanelTitle">Perfil & Debug do Hub</strong>
+        </div>
+        <div class="row" role="toolbar" aria-label="Ações do painel de usuário">
+          <button class="btn" id="btnUserPanelClose" type="button">✖️ Fechar</button>
+        </div>
+      </div>
+
+      <div style="padding:12px;display:flex;flex-direction:column;gap:10px;max-height:calc(100vh - 80px);overflow:auto;">
+        <p class="muted">
+          Configure aqui o <strong>nome do usuário</strong>, o <strong>nome do Dual</strong>
+          e acompanhe alguns <strong>logs de sessão</strong> deste Hub neste dispositivo.
+        </p>
+
+        <label class="muted" for="userName" style="font-size:.8rem;">Seu nome:</label>
+        <input id="userName"
+               type="text"
+               placeholder="Ex: Kodux / JHBarros"
+               style="width:100%;padding:8px;border-radius:10px;border:1px solid var(--stroke-soft);background:var(--bg-elevated);color:inherit;font-size:.84rem;">
+
+        <label class="muted" for="userDual" style="font-size:.8rem;margin-top:4px;">Nome do seu Dual / IA:</label>
+        <input id="userDual"
+               type="text"
+               placeholder="Ex: Horus, Blue, Nova, etc."
+               style="width:100%;padding:8px;border-radius:10px;border:1px solid var(--stroke-soft);background:var(--bg-elevated);color:inherit;font-size:.84rem;">
+
+        <div class="row" style="gap:8px;flex-wrap:wrap;margin-top:6px;">
+          <button class="btn" id="btnUserSave" type="button">💾 Salvar perfil</button>
+          <button class="btn" id="btnUserClear" type="button">🗑️ Limpar perfil</button>
+        </div>
+
+        <hr style="border:none;border-top:1px solid rgba(255,255,255,.06);margin:8px 0;">
+
+        <label class="muted" for="userLogs" style="font-size:.8rem;">Logs desta sessão:</label>
+        <textarea id="userLogs"
+                  readonly
+                  style="width:100%;min-height:160px;font-family:monospace;font-size:.76rem;padding:8px;border-radius:10px;border:1px solid var(--stroke-soft);background:var(--bg-elevated);color:inherit;white-space:pre-wrap;"></textarea>
+
+        <div class="row" style="gap:8px;flex-wrap:wrap;margin-top:6px;">
+          <button class="btn" id="btnUserLogsClear" type="button">🧹 Limpar logs</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
 <script>
 /* ===== Util ===== */
 const $ = (q,root=document)=>root.querySelector(q);
 const $$ = (q,root=document)=>[...root.querySelectorAll(q)];
 const metaTheme = $('#metaThemeColor');
+
+/* ===== Logs & Perfil de Usuário ===== */
+function logEvent(msg){
+  try{
+    const key = 'hub.logs';
+    const now = new Date();
+    const stamp = now.toLocaleString();
+    const entry = `[${stamp}] ${msg}`;
+    const raw = localStorage.getItem(key);
+    const arr = raw ? JSON.parse(raw) : [];
+    arr.push(entry);
+    while(arr.length > 200) arr.shift();
+    localStorage.setItem(key, JSON.stringify(arr));
+    const area = $('#userLogs');
+    if(area){
+      area.value = arr.join('\\n');
+    }
+  }catch(e){
+    console.warn('Log falhou', e);
+  }
+}
+
+function loadLogsIntoPanel(){
+  const area = $('#userLogs');
+  if(!area) return;
+  try{
+    const raw = localStorage.getItem('hub.logs');
+    const arr = raw ? JSON.parse(raw) : [];
+    area.value = arr.join('\\n');
+  }catch(e){
+    area.value = '';
+  }
+}
+
+function applyUserToHeader(){
+  const name = localStorage.getItem('hub.user.name') || '';
+  const dual = localStorage.getItem('hub.user.dual') || '';
+
+  const kicker = $('#kicker');
+  const mainTitle = $('#mainTitle');
+
+  if(kicker){
+    const base = kicker.getAttribute('data-base') || kicker.textContent;
+    if(name || dual){
+      const dualText = dual || 'Dual sem nome';
+      kicker.textContent = `${name || 'Usuário'} • Dual: ${dualText}`;
+    }else{
+      kicker.textContent = base;
+    }
+  }
+
+  if(mainTitle){
+    const base = mainTitle.getAttribute('data-base') || mainTitle.textContent;
+    if(name){
+      mainTitle.textContent = `${base} • ${name}`;
+    }else{
+      mainTitle.textContent = base;
+    }
+  }
+}
+
+function loadUserProfileIntoPanel(){
+  const inputName = $('#userName');
+  const inputDual = $('#userDual');
+  if(inputName) inputName.value = localStorage.getItem('hub.user.name') || '';
+  if(inputDual) inputDual.value = localStorage.getItem('hub.user.dual') || '';
+}
 
 /* ===== Estado base ===== */
 let HUB_BASE_APPS = [];
@@ -486,7 +727,7 @@ function renderCards(apps){
           <div class="title">Seu Hub está vazio</div>
           <div class="muted">
             Toque em <strong>“✏️ Meu Hub”</strong> ali em cima para adicionar apps.
-            Você pode colar links de apps da Infodose no GitHub, outros Hubs, ou qualquer URL.
+            Você pode colar links de apps da Infodose no GitHub, outros Hubs ou qualquer URL.
           </div>
         </div>
       </div>`;
@@ -522,7 +763,7 @@ function renderCards(apps){
     b.addEventListener('mouseenter', ()=> {
       const key = b.getAttribute('data-open');
       const app = apps.find(x=>x.key===key);
-      if(app && app.url && !document.querySelector(`link[data-prefetch="${app.url}"]`)){
+      if(app && app.url && !document.querySelector(\`link[data-prefetch="\${app.url}"]\`)){
         const l = document.createElement('link');
         l.rel = 'prefetch';
         l.href = app.url;
@@ -541,30 +782,145 @@ const loader = $('#loader');
 const btnExternal = $('#btnExternal');
 let lastFocus = null;
 
+let stackHost = null;
+
+function ensureStackHost(){
+  if(!stackHost){
+    stackHost = document.getElementById('stackHost');
+    if(!stackHost){
+      stackHost = document.createElement('div');
+      stackHost.id = 'stackHost';
+      stackHost.className = 'stack-host';
+      viewer.appendChild(stackHost);
+    }
+    viewer.classList.add('stack-mode');
+  }
+  return stackHost;
+}
+
+function reflowStack(){
+  const host = ensureStackHost();
+  const cards = Array.from(host.children);
+  const depthMax = Math.max(0, cards.length-1);
+  cards.forEach((card, i)=>{
+    const depth = depthMax - i; // 0 = topo
+    card.style.setProperty('--stack-index', depth);
+    card.classList.toggle('is-under', depth>0);
+  });
+}
+
+function closeTopStack(){
+  const host = ensureStackHost();
+  const top = host.lastElementChild;
+  if(top) top.remove();
+  if(!host.children.length){
+    viewer.classList.remove('show');
+    document.body.classList.remove('modal-open');
+    viewer.classList.remove('stack-mode');
+    stackHost = null;
+    if(lastFocus) lastFocus.focus();
+  }else{
+    reflowStack();
+  }
+}
+
+
+
 function openApp(app, newtab){
   if(newtab){
     window.open(app.url, '_blank', 'noopener');
     return;
   }
+  logEvent(`App aberto no Hub Virgem: ${app.title || app.key} → ${app.url}`);
   lastFocus = document.activeElement;
-  $('#barTitle').textContent = app.title || app.key;
-  btnExternal.href = app.url;
-  loader.classList.add('show');
-  frame.onload = ()=> setTimeout(()=> loader.classList.remove('show'), 120);
-  frame.src = app.url;
+
+  const host = ensureStackHost();
+  const card = document.createElement('div');
+  card.className = 'stack-card';
+
+  // barra
+  const bar = document.createElement('header');
+  bar.className = 'stack-bar';
+
+  const btnBack = document.createElement('button');
+  btnBack.className = 'stack-back';
+  btnBack.type = 'button';
+  btnBack.setAttribute('aria-label','Voltar');
+  btnBack.textContent = '←';
+  btnBack.onclick = closeTopStack;
+
+  const title = document.createElement('div');
+  title.className = 'stack-title';
+  title.textContent = app.title || app.key;
+
+  const aExt = document.createElement('a');
+  aExt.className = 'stack-external';
+  aExt.href = app.url;
+  aExt.target = '_blank';
+  aExt.rel = 'noopener';
+  aExt.setAttribute('aria-label','Abrir em nova aba');
+  aExt.textContent = '↗︎';
+
+  bar.appendChild(btnBack);
+  bar.appendChild(title);
+  bar.appendChild(aExt);
+
+  // corpo
+  const body = document.createElement('div');
+  body.className = 'stack-body';
+
+  const localLoader = document.createElement('div');
+  localLoader.className = 'loader show';
+  localLoader.innerHTML = '<div class="pulse"></div>';
+
+  const iframe = document.createElement('iframe');
+  iframe.className = 'iframe';
+  iframe.src = app.url;
+  iframe.title = app.title || app.key;
+  iframe.onload = ()=> localLoader.classList.remove('show');
+
+  body.appendChild(localLoader);
+  body.appendChild(iframe);
+
+  card.appendChild(bar);
+  card.appendChild(body);
+  host.appendChild(card);
+
+  // iOS Livro Vivo Card Enter
+  card.classList.add('entering');
+  card.style.opacity = '0';
+  card.style.transform = 'translateY(38px) scale(.96)';
+  // aplica layout (vars) antes de animar
+  reflowStack();
+  requestAnimationFrame(()=>{
+    card.style.opacity = '1';
+    card.style.transform = '';
+    card.addEventListener('transitionend', ()=>card.classList.remove('entering'), {once:true});
+  });
+
   viewer.classList.add('show');
   document.body.classList.add('modal-open');
-  $('#btnHome').focus();
+  reflowStack();
+
   localStorage.setItem('hub.last', app.key);
-  location.hash = '#app=' + encodeURIComponent(app.key);
 }
+
+
 function closeViewer(){
-  frame.src = 'about:blank';
+  // se estiver em stack-mode, fecha tudo
+  const host = document.getElementById('stackHost');
+  if(host){
+    host.innerHTML = '';
+  }
+  if(frame) frame.src = 'about:blank';
   viewer.classList.remove('show');
   document.body.classList.remove('modal-open');
+  viewer.classList.remove('stack-mode');
+  stackHost = null;
   history.pushState('', document.title, window.location.pathname + window.location.search);
   if(lastFocus && typeof lastFocus.focus === 'function') lastFocus.focus();
 }
+
 function openByKey(key, newtab, apps){
   const app = (apps||[]).find(x=>x.key===key);
   if(app) openApp(app, newtab);
@@ -589,27 +945,42 @@ function checkHash(){
   if(apps && apps.length) openByKey(key,false,apps);
 }
 
-/* ===== Tema ===== */
+/* ===== Tema (botão único cíclico) ===== */
+const btnTheme = $('#btnTheme');
+const THEME_ORDER = ['assert','lux'];
+
 function setTheme(name){
-  if(name === 'lux'){
+  const normalized = (name === 'lux' ? 'lux' : 'assert');
+  if(normalized === 'lux'){
     document.documentElement.setAttribute('data-theme','lux');
     metaTheme.setAttribute('content','#0b0819');
-    $('#themeLux').setAttribute('aria-pressed','true');
-    $('#themeCyan').setAttribute('aria-pressed','false');
-    localStorage.setItem('hub.theme','lux');
+    if(btnTheme){
+      btnTheme.textContent = 'Luxara Oceano';
+      btnTheme.setAttribute('aria-pressed','true');
+    }
   }else{
     document.documentElement.removeAttribute('data-theme');
     metaTheme.setAttribute('content','#050510');
-    $('#themeCyan').setAttribute('aria-pressed','true');
-    $('#themeLux').setAttribute('aria-pressed','false');
-    localStorage.setItem('hub.theme','assert');
+    if(btnTheme){
+      btnTheme.textContent = 'ASSERT';
+      btnTheme.setAttribute('aria-pressed','true');
+    }
   }
+  localStorage.setItem('hub.theme', normalized);
+  logEvent(\`Tema alterado para \${normalized} (Hub Virgem).\`);
 }
-$('#themeCyan').onclick = ()=> setTheme('assert');
-$('#themeLux').onclick = ()=> setTheme('lux');
+
+if(btnTheme){
+  btnTheme.onclick = ()=>{
+    const current = localStorage.getItem('hub.theme') || 'assert';
+    const idx = THEME_ORDER.indexOf(current);
+    const next = THEME_ORDER[(idx + 1) % THEME_ORDER.length];
+    setTheme(next);
+  };
+}
 
 const storedTheme = localStorage.getItem('hub.theme');
-if(storedTheme === 'lux') setTheme('lux');
+setTheme(storedTheme === 'lux' ? 'lux' : 'assert');
 
 /* ===== PWA ===== */
 if('serviceWorker' in navigator){
@@ -640,7 +1011,6 @@ if(btnHubEditor && editor && editorRaw){
     editorRaw.value = JSON.stringify(apps, null, 2);
     editor.classList.add('show');
     document.body.classList.add('modal-open');
-    setTimeout(()=> editorRaw.focus(), 50);
   }
   function closeEditor(){
     editor.classList.remove('show');
@@ -660,9 +1030,10 @@ if(btnHubEditor && editor && editorRaw){
         }
         hubSaveUserApps(parsed);
         renderCards(parsed);
+        logEvent('Hub Virgem atualizado via editor (apps personalizados).');
         alert('Hub Virgem atualizado neste dispositivo.');
       }catch(e){
-        alert('JSON inválido. Confira se está correto.\n\n' + e.message);
+        alert('JSON inválido. Confira se está correto.\\n\\n' + e.message);
       }
     };
   }
@@ -680,17 +1051,18 @@ if(btnHubEditor && editor && editorRaw){
   }
   if(btnEditorReset){
     btnEditorReset.onclick = ()=>{
-      if(confirm('Limpar seu Hub pessoal neste dispositivo e deixar totalmente vazio?')){
-        localStorage.removeItem('hub.user.apps');
-        HUB_USER_APPS = null;
-        editorRaw.value = '[]';
-        renderCards([]);
-      }
+      if(!confirm('Limpar seu Hub pessoal neste dispositivo e deixar totalmente vazio?')) return;
+      localStorage.removeItem('hub.user.apps');
+      HUB_USER_APPS = null;
+      editorRaw.value = '[]';
+      renderCards([]);
+      logEvent('Hub Virgem resetado: apps do usuário limpos.');
     };
   }
   if(btnEditorUseBase){
     btnEditorUseBase.onclick = ()=>{
       editorRaw.value = JSON.stringify(HUB_BASE_APPS, null, 2);
+      logEvent('Template do apps.json carregado no editor do Hub Virgem.');
     };
   }
   if(btnEditorAdd){
@@ -721,17 +1093,100 @@ if(btnHubEditor && editor && editorRaw){
   });
 }
 
+/* ===== Painel de Usuário (Orb) ===== */
+const userPanel = $('#userPanel');
+const btnUserOrb = $('#btnUserOrb');
+const btnUserPanelClose = $('#btnUserPanelClose');
+const btnUserSave = $('#btnUserSave');
+const btnUserClear = $('#btnUserClear');
+const btnUserLogsClear = $('#btnUserLogsClear');
+
+function openUserPanel(){
+  if(!userPanel) return;
+  loadUserProfileIntoPanel();
+  loadLogsIntoPanel();
+  userPanel.classList.add('show');
+  document.body.classList.add('modal-open');
+  const name = localStorage.getItem('hub.user.name') || '';
+  logEvent(\`User panel aberto (Hub Virgem)\${name ? ' para '+name : ''}.\`);
+}
+
+function closeUserPanel(){
+  if(!userPanel) return;
+  userPanel.classList.remove('show');
+  document.body.classList.remove('modal-open');
+}
+
+if(btnUserOrb){
+  btnUserOrb.style.cursor = 'pointer';
+  btnUserOrb.addEventListener('click', openUserPanel);
+  btnUserOrb.addEventListener('keydown', (e)=>{
+    if(e.key === 'Enter' || e.key === ' '){
+      e.preventDefault();
+      openUserPanel();
+    }
+  });
+}
+if(btnUserPanelClose){
+  btnUserPanelClose.onclick = closeUserPanel;
+}
+
+if(userPanel){
+  userPanel.addEventListener('click', (e)=>{
+    if(e.target === userPanel) closeUserPanel();
+  });
+  window.addEventListener('keydown', (e)=>{
+    if(e.key === 'Escape' && userPanel.classList.contains('show')){
+      closeUserPanel();
+    }
+  });
+}
+
+if(btnUserSave){
+  btnUserSave.onclick = ()=>{
+    const name = ($('#userName')?.value || '').trim();
+    const dual = ($('#userDual')?.value || '').trim();
+    localStorage.setItem('hub.user.name', name);
+    localStorage.setItem('hub.user.dual', dual);
+    applyUserToHeader();
+    logEvent(\`Perfil salvo (Hub Virgem): name="\${name}", dual="\${dual}".\`);
+    alert('Perfil salvo neste dispositivo.');
+  };
+}
+if(btnUserClear){
+  btnUserClear.onclick = ()=>{
+    if(!confirm('Limpar nome e Dual salvos neste dispositivo?')) return;
+    localStorage.removeItem('hub.user.name');
+    localStorage.removeItem('hub.user.dual');
+    applyUserToHeader();
+    logEvent('Perfil de usuário limpo (Hub Virgem).');
+    const n = $('#userName'), d = $('#userDual');
+    if(n) n.value = '';
+    if(d) d.value = '';
+  };
+}
+if(btnUserLogsClear){
+  btnUserLogsClear.onclick = ()=>{
+    if(!confirm('Limpar todos os logs deste Hub neste dispositivo?')) return;
+    localStorage.removeItem('hub.logs');
+    loadLogsIntoPanel();
+    logEvent('Logs foram limpos (Hub Virgem – novo log inicial).');
+  };
+}
+
 /* ===== Boot: carrega template base e renderiza Hub Virgem ===== */
 async function boot(){
   try{
-    const res = await fetch('./apps/apps.json', {cache:'no-store'});
+    const res = await fetch('apps/apps.json', {cache:'no-store'});
     const data = await res.json();
     HUB_BASE_APPS = Array.isArray(data.apps) ? data.apps : [];
   }catch(e){
     HUB_BASE_APPS = [];
   }
   HUB_USER_APPS = hubLoadUserApps();
+  applyUserToHeader();
   renderCards(hubEffectiveApps());
+  logEvent('Hub Virgem carregado.');
   checkHash();
 }
 boot();
