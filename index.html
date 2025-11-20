@@ -941,7 +941,7 @@ if(btnUserLogsClear){
 /* ===== Boot: carrega template base e renderiza Hub Virgem ===== */
 async function boot(){
   try{
-    const res = await fetch('./apps/apps.json', {cache:'no-store'});
+    const res = await fetch('apps/apps.json', {cache:'no-store'});
     const data = await res.json();
     HUB_BASE_APPS = Array.isArray(data.apps) ? data.apps : [];
   }catch(e){
