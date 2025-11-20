@@ -2,10 +2,10 @@
   "apps": [
     {
       "key": "Orc",
-      "title": "🗒️ Costa&Ribeiro-Orc",
+      "title": "🗒️ CostaRibeiro-Orc",
       "desc": "PWA offline com dashboard, lembrete e relat.",
       "icon": "icons/icon-180.png",
-      "url": "./apps/Costa&Ribeiro-ORc.html"
+      "url": "./apps/CostaRibeiro-ORc.html"
     },
     {
       "key": "app2",
