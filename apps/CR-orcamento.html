@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Costa & Ribeiro – Infodose Costura</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+/* MOBILE-FIRST VERTICAL HARD-LOCK */
+*{margin:0;padding:0;box-sizing:border-box;font-family:Inter,system-ui,sans-serif;}
+
+body{
+  background:linear-gradient(42deg,#00ffaacc,#8800ffaa);
+  padding:20px;
+  color:#fff;
+}
+
+h1{
+  text-align:center;
+  margin-bottom:15px;
+  font-size:1.8rem;
+  font-weight:800;
+}
+
+/* CARD */
+.card{
+  background:#ffffff15;
+  padding:18px;
+  border-radius:14px;
+  margin-bottom:18px;
+  backdrop-filter:blur(8px);
+  border:1px solid #ffffff22;
+}
+
+/* INPUT */
+label{font-weight:600;display:block;margin-bottom:4px;}
+input{
+  width:100%;
+  padding:10px;
+  border-radius:10px;
+  border:none;
+  margin-bottom:12px;
+  background:#ffffff25;
+  color:#fff;
+  font-size:1rem;
+}
+
+/* BUTTON */
+button{
+  width:100%;
+  padding:14px;
+  font-size:1.1rem;
+  border:none;
+  border-radius:14px;
+  background:#00ffc8cc;
+  color:#000;
+  font-weight:700;
+  margin-top:6px;
+}
+
+/* RESULT */
+#resultado{
+  background:#ffffff22;
+  padding:20px;
+  border-radius:12px;
+  margin-top:16px;
+}
+
+.result-item{
+  margin-bottom:8px;
+  font-size:1.1rem;
+}
+.result-item span{font-weight:bold;color:#00ffdf;}
+</style>
+</head>
+<body>
+
+<h1>Infodose – Costa & Ribeiro</h1>
+
+<div class="card">
+
+  <label>Valor do material por metro (R$)</label>
+  <input type="number" id="valorMetro" placeholder="Ex: 32">
+
+  <label>Quantidade de metros usados por peça</label>
+  <input type="number" id="qtdMetroPeca" placeholder="Ex: 0.65">
+
+  <label>Valor de aviamentos (R$)</label>
+  <input type="number" id="aviamentos" placeholder="Ex: 4.50">
+
+  <label>Custo da costureira (R$)</label>
+  <input type="number" id="costureira" placeholder="Ex: 15">
+
+  <label>Frete / Transporte (R$)</label>
+  <input type="number" id="frete" placeholder="Ex: 6">
+
+  <label>Embalagem (R$)</label>
+  <input type="number" id="embalagem" placeholder="Ex: 2">
+
+  <label>Despesas extras (R$)</label>
+  <input type="number" id="extras" placeholder="Ex: 3">
+
+  <label>Etiquetas por peça (R$)</label>
+  <input type="number" id="etiqueta" placeholder="Ex: 1.50">
+
+  <button onclick="calcular()">Calcular Custo Final</button>
+</div>
+
+<div id="resultado"></div>
+
+<script>
+function calcular(){
+  const vm = parseFloat(valorMetro.value)||0;
+  const mp = parseFloat(qtdMetroPeca.value)||0;
+  const avi = parseFloat(aviamentos.value)||0;
+  const cos = parseFloat(costureira.value)||0;
+  const fre = parseFloat(frete.value)||0;
+  const emb = parseFloat(embalagem.value)||0;
+  const ext = parseFloat(extras.value)||0;
+  const etq = parseFloat(etiqueta.value)||0;
+
+  const valorMaterialPeca = vm * mp;
+
+  const custoTotal = valorMaterialPeca + avi + cos + fre + emb + ext + etq;
+
+  /* PRESET DE SUGESTÃO DE PREÇO */
+  const precoConsumidor = (custoTotal * 2.7).toFixed(2);   // markup 2.7x
+  const precoPremium = (custoTotal * 3.2).toFixed(2);
+  const precoAtacado = (custoTotal * 1.8).toFixed(2);
+
+  resultado.innerHTML = `
+    <div class="result-item">Material por peça: <span>R$ ${valorMaterialPeca.toFixed(2)}</span></div>
+    <div class="result-item">Custo total por unidade: <span>R$ ${custoTotal.toFixed(2)}</span></div>
+    <hr style="margin:12px 0;border:0;border-bottom:1px solid #ffffff55">
+    <div class="result-item">Valor sugerido (Básico): <span>R$ ${precoConsumidor}</span></div>
+    <div class="result-item">Sugestão Premium: <span>R$ ${precoPremium}</span></div>
+    <div class="result-item">Preço Atacado: <span>R$ ${precoAtacado}</span></div>
+  `;
+}
+</script>
+
+</body>
+</html>
