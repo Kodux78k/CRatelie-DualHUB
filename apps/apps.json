@@ -2,25 +2,33 @@
   "apps": [
     {
       "key": "Orc",
-      "title": "🗒️ Costa&Ribeiro-ORC",
-      "desc": "PWA offline com dashboard, lembrete e relatos com áudio.",
+      "title": "🗒️ Costa&Ribeiro-Orc",
+      "desc": "PWA offline com dashboard, lembrete e relat.",
       "icon": "icons/icon-180.png",
       "url": "./apps/Costa&Ribeiro-ORc.html"
     },
     {
       "key": "app2",
-      "title": "🏠 APP2 ",
-      "desc": "Regularize seu imóvel.",
+      "title": "CATCR ",
+      "desc": "Regularize seu .",
       "icon": "icons/icon-181.png",
-      "url": "./apps/CR-orcamento.html"
+      "url": "./apps/CATCR.html"
     },
         {
       "key": "Contratos",
-      "title": "📑 Gerar Contrato ",
+      "title": "📑 Catalogos  ",
       "desc": "Gere orçamentos.",
       "icon": "icons/icon-182.png",
-      "url": "./apps/indexv 1.html"
+      "url": "./apps/CostaRibero-Cotar0.html"
     },
+    {
+      "key": "Cotas",
+      "title": "📑 Catalogos  ",
+      "desc": "Gere catalogos.",
+      "icon": "icons/icon-192.png",
+      "url": "./apps/CatCostaRibeiro.html"
+    },
+
         {
       "key": "d0x",
       "title": "📜 infoD0X ",
