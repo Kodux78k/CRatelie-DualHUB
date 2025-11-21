@@ -349,6 +349,7 @@
 /* ocupa a tela toda, sem tirar espaço com padding */
 .viewer{
   position:fixed;
+  top:39px;
   inset:0;
   display:none;
   align-items:stretch;             /* estica na vertical */
@@ -389,6 +390,7 @@
 /* se quiser deixar com bordas bonitas só em tela maior: */
 @media (min-width: 900px){
   .viewer{
+    top:29px;
     padding:24px 12px;
   }
   .frame{
@@ -454,7 +456,7 @@
           Os dados ficam <strong>só neste dispositivo</strong> (localStorage).
         </p>
         <p class="muted" style="font-size:.76rem;">
-          Você pode usar apps externos do GitHub Pages ou de outros domínios:
+          Você pode usar apps CostaRibeiro ou de outros dual.infodose:
           basta colocar a <code>url</code> completa (https://...).
           Botão “Usar padrão” puxa o template do <code>apps/apps.json</code>.
         </p>
