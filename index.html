@@ -463,15 +463,15 @@
           Botão “Usar padrão” puxa o template do <code>apps/apps.json</code>.
         </p>
         <div class="row" style="gap:8px;flex-wrap:wrap;">
-          <button class="btn" id="btnEditorAdd" type="button">➕ Adicionar app</button>
-          <button class="btn" id="btnEditorReset" type="button">🗑️ Limpar meu Hub</button>
-          <button class="btn" id="btnEditorUseBase" type="button">⬇️ Usar padrão</button>
+          <button class="btn" id="btnEditorAdd" type="button">➕ ADD APP 🫆</button>
+          <button class="btn" id="btnEditorReset" type="button">🗑️ Limpar Hub</button>
+          <button class="btn" id="btnEditorUseBase" type="button">⬇️ Apps - CostaRibeiro 📲</button>
         </div>
         <label class="muted" for="editorRaw" style="font-size:.78rem;">JSON dos apps (array de objetos):</label>
         <textarea id="editorRaw" style="width:100%;min-height:160px;font-family:monospace;font-size:.78rem;padding:8px;border-radius:10px;border:1px solid var(--stroke-soft);background:var(--bg-elevated);color:inherit;"></textarea>
         <div class="row" style="gap:8px;flex-wrap:wrap;">
-          <button class="btn" id="btnEditorApply" type="button">💾 Aplicar JSON abaixo</button>
-          <button class="btn" id="btnEditorCopy" type="button">📋 Copiar JSON</button>
+          <button class="btn" id="btnEditorApply" type="button">💾 ATIVAR ⚡️</button>
+          <button class="btn" id="btnEditorCopy" type="button">📋 Copiar 🧷</button>
         </div>
       </div>
     </div>
@@ -660,7 +660,7 @@ let deferredPrompt=null;
 window.addEventListener('beforeinstallprompt', (e)=>{ e.preventDefault(); deferredPrompt=e; });
 $('#btnInstall').onclick = async()=>{
   if(deferredPrompt){ deferredPrompt.prompt(); await deferredPrompt.userChoice; deferredPrompt=null; }
-  else alert('Se o prompt não aparecer, use “Adicionar à Tela de Início”.');
+  else alert('Se o prompt não aparecer, use “(+) clicando - Compartilhar/Adicionar à Tela de Início”.');
 };
 
 /* ===== Hub Editor (Virgem) ===== */
@@ -701,7 +701,7 @@ if(btnHubEditor && editor && editorRaw){
         }
         hubSaveUserApps(parsed);
         renderCards(parsed);
-        alert('Hub Virgem atualizado neste dispositivo.');
+        alert('Seu HUB 🫆 atualizado neste dispositivo.');
       }catch(e){
         alert('JSON inválido. Confira se está correto.\n\n' + e.message);
       }
