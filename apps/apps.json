@@ -2,36 +2,36 @@
   "apps": [
     {
       "key": "Orc",
-      "title": "🗒️ CostaRibeiro-Orc",
-      "desc": "PWA offline com dashboard, lembrete e relat.",
+      "title": "🗒️ Gerar Orcamento - CR 💶",
+      "desc": "Aproveite o APP com dashboard, lembrete e relat.",
       "icon": "icons/icon-180.png",
       "url": "./apps/CostaRibeiro-ORc.html"
     },
     {
       "key": "app2",
-      "title": "CATCR ",
-      "desc": "Regularize seu .",
+      "title": "📝Cat e Orçamentos ",
+      "desc": "Versao 2 do [Gerador de Orcamentos] ."ç
       "icon": "icons/icon-181.png",
       "url": "./apps/CATCR.html"
     },
         {
       "key": "Contratos",
-      "title": "📑 Catalogos  ",
-      "desc": "Gere orçamentos.",
+      "title": "📊 Análise Infodose",
+      "desc": "🔎 Analise e gere seus orçamentos com IA 🤖.",
       "icon": "icons/icon-182.png",
-      "url": "./apps/CostaRibero-Cotar0.html"
+      "url": "./apps/CRatelie-IA.html"
     },
     {
       "key": "Cotas",
-      "title": "📑 Catalogos  ",
-      "desc": "Gere catalogos.",
+      "title": "🧷 Nebula HUB-IN",
+      "desc": "Hub dentro do Hub- Portal 369.",
       "icon": "icons/icon-192.png",
-      "url": "./apps/CatCostaRibeiro.html"
+      "url": "./apps/Nebula-Hub-KOBLLUX.html"
     },
 
         {
       "key": "d0x",
-      "title": "📜 infoD0X ",
+      "title": "🆔 infoD0X ",
       "desc": "Livro vivo.",
       "icon": "icons/icon-d0x.png",
       "url": "./apps/index_final_cards_nossolar.html"
